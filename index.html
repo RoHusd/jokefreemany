@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인증 페이지</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            background-color: #ffffff;
+            padding: 20px;
+            width: 100%;
+            max-width: 500px;
+        }
+        .header {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .description {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        .instruction {
+            font-size: 18px;
+            color: #007bff;
+            margin: 20px 0;
+        }
+        .transition-message {
+            display: none;
+            font-size: 18px;
+            margin-top: 20px;
+            color: #ff4d4d;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="initialContent">
+        <div class="header">🤖 Are you a robot?🤖</div>
+        <img src="logo.png" alt="Logo 1" style="width: 400px; margin-bottom: 15px;">
+        <div class="description">인증을 위해 마우스를 격하게 움직여 주세요.</div>
+        <div class="instruction">Security by Cloudfalre Template</div>
+    </div>
+    <div class="container hidden" id="transitionMessage">인증 중...</div>
+    <div class="container hidden" id="easterEggMessage">  </div>
+
+    <script>
+        let mouseMovementCount = 0;
+        const requiredMovements = 15; // 마우스 움직임 횟수
+        const urls = [
+            'https://cdn.maily.so/8pydoq8bgpljg6xximmrdcw3dr6n',
+            'meme.mp4',
+            'meme2.mp4'
+        ];
+        let visitedUrls = [];
+
+        const transitionMessage = document.getElementById('transitionMessage');
+        const initialContent = document.getElementById('initialContent');
+        const easterEggMessage = document.getElementById('easterEggMessage');
+
+        function redirectToRandomUrl() {
+            if (visitedUrls.length < urls.length) {
+                let randomUrl;
+                do {
+                    randomUrl = urls[Math.floor(Math.random() * urls.length)];
+                } while (visitedUrls.includes(randomUrl));
+                
+                visitedUrls.push(randomUrl);
+                window.location.href = randomUrl;
+            } else {
+                // 모든 URL을 방문한 경우
+                initialContent.classList.add('hidden');
+                transitionMessage.classList.add('hidden');
+                easterEggMessage.classList.remove('hidden');
+            }
+        }
+
+        document.addEventListener('mousemove', function() {
+            mouseMovementCount++;
+            if (mouseMovementCount >= requiredMovements) {
+                initialContent.classList.add('hidden');
+                transitionMessage.classList.remove('hidden');
+                
+                setTimeout(function() {
+                    transitionMessage.textContent = '링크 가져오는중...';
+                    setTimeout(redirectToRandomUrl, 2000); // 2초 후에 리다이렉션
+                }, 2000); // 인증 중 메시지 표시 후 2초 대기
+            }
+        });
+    </script>
+</body>
+</html>
